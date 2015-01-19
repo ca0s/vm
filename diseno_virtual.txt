@@ -1,0 +1,87 @@
+Especificacionmaquina virtual 64 bits churra [ca0s]
+
+16 regs
+{
+	Nombre	Numero	Descripcion
+	------	------	----------------------
+	rip		0000	Puntero a instruccion
+	rsp		0001	Puntero tope de pila
+	rbp		0010	Puntero base de pila
+	rer		0011	Codigo de resultado
+	rco		0100	Offset de codigo
+	rdo		0101	Offset de datos
+	r0		0110	
+	r1		0111
+	r2		1000
+	r3		1001
+	r4		1010
+	r5		1011
+	r6		1100
+	r7		1101
+	r8		1110
+	rp		1111  	Palabra de estado
+}
+
+2 modos
+{
+	Nombre	Valor
+	------	-----
+	high	0
+	low		1
+}
+
+instrucciones
+{
+	Opcode		Instr	Arg1				Arg2
+	-------		------	-----------------	-------------------
+	0x01		ret
+	0x02		call	[i] arg / [i] reg
+	0x03		int 	[i] arg / [i] reg
+	0x04		jmp 	[i] arg / [i] reg
+	0x05		je  	[i] arg / [i] reg
+	0x06		z   	reg
+	0x07		mv  	[i] arg / [i] reg , [i] arg / [i] reg
+	0x08		add		reg, 				[i] arg / [i] reg
+	0x09		sub		reg, 				[i] arg / [i] reg
+	0x0A		mul		reg, 				[i] arg / [i] reg
+	0x0B		div		reg, 				[i] arg / [i] reg
+	0x0C		xor		reg, 				[i] arg / [i] reg	
+	0x0D		push	[i] arg / [i] reg
+	0x0E		pop		reg
+	0x0F		nop
+	0x10		and		reg 				[i] arg / [i] reg
+	0x11		cmp		[i] arg / [i] reg , [i] arg / [i] reg
+}
+
+formato
+{
+		Bits	Valores posibles	Descripcion	
+		----	----------------	---------------------
+	arg
+		0-31/63	 					valor / direccion
+	reg
+		0-7	 						numero registro
+	opcode
+		0		0/1 				argumentos?
+		1		0/1 				1/2 argumentos
+		2		0/1					Arg1 -> indirecto / directo
+		3		0/1					Arg2 -> indirecto / directo
+		4		0/1					Arg1 -> arg / reg
+		5		0/1					Arg2 -> arg / reg
+		6		0/1					Arg1 -> 32/64 bits
+		7		0/1					Arg2 -> 32/64 bits 
+		8-15	 					numero instruccion
+}
+
+ejecutable
+{
+	Bytes		Contenido
+	------		----------
+	0-2			"CVM"
+	3-10		Offset codigo
+	11-18		Offset datos
+	19-26		Tamaño código
+	27-34		Tamaño datos
+	xx-xx		Código
+	xx-xx		Datos
+}
